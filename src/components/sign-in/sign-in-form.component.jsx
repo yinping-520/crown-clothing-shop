@@ -3,6 +3,7 @@ import { signInAuthUserWithEmailAndPassword, createUserDocFromAuth, signInWithGo
 import './sign-in-form.style.scss'
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
+import { UserContext } from "../../contexts/user.context";
 
 const defaultFormFields = {
     email: '',
@@ -25,8 +26,7 @@ const SignInForm = () => {
         event.preventDefault();
        
         try{
-            const response = await signInAuthUserWithEmailAndPassword(email, password)
-            console.log(response)
+            const {user} = await signInAuthUserWithEmailAndPassword(email, password)
             resetForm()
         } catch (error) {
             switch (error.code) {
@@ -40,10 +40,7 @@ const SignInForm = () => {
     };
 
     const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
-        
-        const userDocRef = createUserDocFromAuth(user);
-        console.log(userDocRef)
+        await signInWithGooglePopup();
     };
 
     return(
